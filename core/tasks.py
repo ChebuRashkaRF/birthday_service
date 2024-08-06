@@ -1,11 +1,12 @@
+import datetime
+
 from celery import shared_task
-from django.utils import timezone
 from .models import User
 
 
 @shared_task
 def send_birthday_notifications():
-    today = timezone.now().date()
+    today = datetime.date.today()
     users_with_birthdays = User.objects.filter(
         birth_date__month=today.month, birth_date__day=today.day
     ).prefetch_related("subscribers")
